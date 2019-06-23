@@ -1,2 +1,2 @@
 # houdini
-A good library of python scripts.
+A good library of houdini based scripts.
