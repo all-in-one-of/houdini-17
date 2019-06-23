@@ -1,2 +1,2 @@
 # houdini
-Going to layout a good library of python scripts.
+A good library of python scripts.
