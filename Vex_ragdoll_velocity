@@ -1,0 +1,52 @@
+s@name = "piece_" + itoa(@ptnum);
+//Randomize Velocity
+float x,y,z,minX,minY,minZ,maxX,maxY,maxZ,sx,sy,sz,sminX,sminY,sminZ,smaxX,smaxY,smaxZ;
+//source min max velocity
+vector min=chv("minVelRandom");
+vector max=chv("maxVelRandom");
+//randomize min max velocity
+x = fit01(rand(@ptnum),min.x,max.x);
+y = fit01(rand(@ptnum*222),min.y,max.y);
+z = fit01(rand(@ptnum*333),min.z,max.z);
+//assign the same to force which doesnt work
+//v@force=set(x,y,z);
+//assign the random velocity to each bone which worked for me
+v[]@v_agent;
+i@myBones= agenttransformcount(0, @ptnum);
+for(int i;i<=@myBones;i++)
+    {
+    append(@v_agent,@force);
+    }
+//Initial Spin Random
+vector smin=chv("minSpinRandom");
+vector smax=chv("maxSpinRandom");
+sx = fit01(rand(@ptnum*1000),smin.x,smax.x);
+sy = fit01(rand(@ptnum*1222),smin.y,smax.y);
+sz = fit01(rand(@ptnum*1333),smin.z,smax.z);
+//assign Spin Random in Torque
+v@torque=set(sx,sy,sz);
+
+//Oscilation Setup
+//In the below vex code the only value I have used in the simulation is the v@oscillation's Y component but the code also creates an array which is currently not being used
+vector oMin         =   chv("oscillationMin");
+vector oMax         =   chv("oscillationMax");
+vector oRandom      =   fit01(random(@ptnum),oMin,oMax);
+v@oscillation       =   oRandom;
+v@zeroOscillation   =   set(0.0,0.0,0.0);
+
+v[]@oscillation_agent;
+i@myBones= agenttransformcount(0, @ptnum);
+for(int i;i<=@myBones;i++)
+    {
+      
+    if(i==30||i==32||i==1)
+        {
+        append(@oscillation_agent,v@oscillation);
+        }
+    if(i!=30||i!=32||i==1)
+        {
+        append(@oscillation_agent,v@zeroOscillation);
+        }
+    }
+
+Create v_agent array and a vector array for oscillation of certain selected bone numbers
